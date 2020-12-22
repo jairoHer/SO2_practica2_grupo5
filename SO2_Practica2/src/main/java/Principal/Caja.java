@@ -5,17 +5,43 @@
  */
 package Principal;
 
+import static Principal.front.jTextField1;
+import static Principal.front.jTextField2;
+import static Principal.front.jTextField3;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Estuardo
  */
 public class Caja extends Thread{
-    private String texto;
-    Caja(String texto){
-        this.texto=texto;
+    private Principal.Estanteria est;
+    public Caja(Principal.Estanteria est){
+        this.est=est;
     }
     
-    public String mostrar(){
-        return this.texto;
+    @Override
+    public void run(){
+        try {
+            cambiando();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    public void cambiando()throws InterruptedException{
+        while(true){
+            if(this.est.getllegada()>0 && this.est.getcajas()<20){
+                this.est.agregarcajas(1);
+                this.est.agregarllegada(-1);
+            }
+            if(this.est.getsalida()>0 && this.est.getcajas()>0){
+                this.est.agregarcajas(-1);
+                this.est.agregarsalida(-1);
+            }
+            
+            Thread.sleep(100);
+        }
+    }
+    
 }
