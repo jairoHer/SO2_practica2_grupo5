@@ -85,7 +85,5 @@ public class Estanteria extends Thread{
                 
             }
         }
-        
-        
     }
 }
